@@ -127,5 +127,3 @@ sam delete --stack-name portfolio-blog-17
 ```
 Redeploy in seconds with `sam build && sam deploy` right before presenting.
 
-## Next: Phase 11 — Presentation prep
-Live demo script, console screenshots with Student ID visible, architecture diagram walkthrough.
