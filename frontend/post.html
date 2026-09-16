@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post — Student 17</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav>
+    <span class="brand">Portfolio</span>
+    <span class="student-id">Student ID: 17</span>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <a href="blog.html" style="display:inline-block;margin-bottom:1rem;">&larr; Back to blog</a>
+    <div id="post-container" class="card">
+      <p>Loading...</p>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    // Read the ?id= query parameter and fetch the post from the API.
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get("id");
+      const container = document.getElementById("post-container");
+
+      if (!postId) {
+        container.innerHTML = "<p>No post ID provided.</p>";
+        return;
+      }
+
+      // GET /posts/{id} — public, no auth required.
+      fetch(API_BASE_URL + "/posts/" + encodeURIComponent(postId))
+        .then(function (res) {
+          if (!res.ok) throw new Error("Post not found");
+          return res.json();
+        })
+        .then(function (post) {
+          // Convert the numeric createdAt timestamp to a readable date.
+          var dateStr = "";
+          if (post.createdAt) {
+            dateStr = new Date(parseInt(post.createdAt, 10)).toLocaleDateString();
+          }
+          container.innerHTML =
+            "<h1>" + escapeHtml(post.title) + "</h1>" +
+            '<div class="meta">By ' + escapeHtml(post.author) +
+            (dateStr ? " on " + dateStr : "") + "</div>" +
+            '<div class="post-content">' + escapeHtml(post.content) + "</div>";
+        })
+        .catch(function (err) {
+          container.innerHTML = "<p>Failed to load post: " + escapeHtml(err.message) + "</p>";
+        });
+
+      // Basic HTML escaping to prevent XSS when rendering user-supplied content.
+      function escapeHtml(text) {
+        var div = document.createElement("div");
+        div.appendChild(document.createTextNode(text));
+        return div.innerHTML;
+      }
+    })();
+  </script>
+
+</body>
+</html>

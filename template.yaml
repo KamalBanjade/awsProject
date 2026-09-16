@@ -1,0 +1,190 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Serverless Portfolio & Blog Platform - Student ID 17
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 128
+    Runtime: python3.12
+
+Resources:
+
+  # ---------------------------------------------------------------
+  # PHASE 2 — DynamoDB table
+  # One table, one item per blog post.
+  # Partition key: postId (String)
+  # PAY_PER_REQUEST = no capacity to manage, stays inside Free Tier
+  # for this project's traffic volume.
+  # ---------------------------------------------------------------
+  BlogPostsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: BlogPosts-17
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: postId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: postId
+          KeyType: HASH
+
+  # ---------------------------------------------------------------
+  # PHASE 3 — Cognito User Pool
+  # Users sign up/log in with email. No client secret on the App
+  # Client since the frontend calls Cognito directly from JS.
+  # ---------------------------------------------------------------
+  BlogUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: BlogUsers-17
+      AutoVerifiedAttributes:
+        - email
+      UsernameAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireUppercase: false
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+
+  BlogUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: BlogWebClient-17
+      UserPoolId: !Ref BlogUserPool
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+        - ALLOW_USER_SRP_AUTH
+
+  # ---------------------------------------------------------------
+  # PHASE 4 — Lambda functions
+  # Each function gets least-privilege DynamoDB access scoped
+  # only to BlogPostsTable, plus the table name as an env var.
+  # ---------------------------------------------------------------
+
+  ListPostsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ListPosts-17
+      CodeUri: src/list_posts/
+      Handler: app.lambda_handler
+      Role: arn:aws:iam::357904290251:role/LabRole
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref BlogPostsTable
+      Events:
+        ListPosts:
+          Type: Api
+          Properties:
+            RestApiId: !Ref BlogApi
+            Path: /posts
+            Method: get
+
+  GetPostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GetPost-17
+      CodeUri: src/get_post/
+      Handler: app.lambda_handler
+      Role: arn:aws:iam::357904290251:role/LabRole
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref BlogPostsTable
+      Events:
+        GetPost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref BlogApi
+            Path: /posts/{id}
+            Method: get
+
+  CreatePostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CreatePost-17
+      CodeUri: src/create_post/
+      Handler: app.lambda_handler
+      Role: arn:aws:iam::357904290251:role/LabRole
+      Environment:
+        Variables:
+          TABLE_NAME: !Ref BlogPostsTable
+      Events:
+        CreatePost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref BlogApi
+            Path: /posts
+            Method: post
+            Auth:
+              Authorizer: CognitoAuthorizer
+
+  # ---------------------------------------------------------------
+  # PHASE 5 — API Gateway
+  # REST API with a Cognito authorizer, applied only to POST /posts.
+  # GET routes stay public (DefaultAuthorizer: NONE).
+  # ---------------------------------------------------------------
+  BlogApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: BlogAPI-17
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowOrigin: "'*'"
+      Auth:
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt BlogUserPool.Arn
+
+  # ---------------------------------------------------------------
+  # PHASE 8 — S3 static website hosting
+  # ---------------------------------------------------------------
+  PortfolioBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: portfolio-17
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+
+  PortfolioBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref PortfolioBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: PublicRead
+            Effect: Allow
+            Principal: "*"
+            Action: s3:GetObject
+            Resource: !Sub "${PortfolioBucket.Arn}/*"
+
+Outputs:
+  BlogPostsTableName:
+    Description: DynamoDB table name
+    Value: !Ref BlogPostsTable
+  UserPoolId:
+    Description: Cognito User Pool ID (you'll need this in the frontend)
+    Value: !Ref BlogUserPool
+  UserPoolClientId:
+    Description: Cognito App Client ID (you'll need this in the frontend)
+    Value: !Ref BlogUserPoolClient
+  ApiUrl:
+    Description: Base URL for the API Gateway stage
+    Value: !Sub "https://${BlogApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+  WebsiteURL:
+    Description: S3 static website URL
+    Value: !GetAtt PortfolioBucket.WebsiteURL

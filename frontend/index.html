@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Student 17</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Shared navigation bar -->
+  <nav>
+    <span class="brand">Portfolio</span>
+    <span class="student-id">Student ID: 17</span>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero / About -->
+    <section>
+      <h1>Serverless Portfolio &amp; Blog</h1>
+      <p>
+        A cloud-native portfolio and blogging platform built entirely on AWS
+        serverless infrastructure. No servers to manage — just Lambda, DynamoDB,
+        API Gateway, Cognito, and S3 static hosting.
+      </p>
+    </section>
+
+    <!-- Skills -->
+    <section>
+      <h2>Skills &amp; Technologies</h2>
+      <ul class="skill-list">
+        <li>Python</li>
+        <li>AWS Lambda</li>
+        <li>DynamoDB</li>
+        <li>API Gateway</li>
+        <li>Cognito</li>
+        <li>S3</li>
+        <li>SAM (IaC)</li>
+        <li>HTML / CSS / JS</li>
+      </ul>
+    </section>
+
+    <!-- Project Architecture -->
+    <section>
+      <h2>Architecture</h2>
+      <p>
+        <strong>Frontend:</strong> Static HTML/CSS/JS deployed to S3 with website
+        hosting enabled.<br>
+        <strong>Backend:</strong> Three Lambda functions (list posts, get post,
+        create post) behind API Gateway with Cognito JWT authorisation on the
+        write route.<br>
+        <strong>Data:</strong> DynamoDB table with on-demand billing — no
+        capacity planning required.
+      </p>
+    </section>
+
+    <!-- Contact -->
+    <section>
+      <h2>Contact</h2>
+      <p>
+        Email: <a href="mailto:kamal17@example.com">kamal17@example.com</a><br>
+        GitHub: <a href="https://github.com/KamalBanjade/awsProject.git" target="_blank">github.com/KamalBanjade/awsProject</a>
+      </p>
+    </section>
+
+  </div>
+
+  <footer>
+    <span class="student-id" style="margin-right:0.5rem;">ID: 17</span>
+    Serverless Portfolio &amp; Blog &copy; 2026
+  </footer>
+
+</body>
+</html>

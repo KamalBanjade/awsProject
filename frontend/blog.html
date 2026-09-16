@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog — Student 17</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav>
+    <span class="brand">Portfolio</span>
+    <span class="student-id">Student ID: 17</span>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <h1 style="margin-bottom:1.5rem;">Blog</h1>
+
+    <!-- ============================================================
+         AUTH SECTION
+         ============================================================
+         The login form uses amazon-cognito-identity-js to authenticate
+         against the User Pool directly from the browser.
+
+         Flow:
+           1. User enters email + password.
+           2. CognitoUser.authenticate() sends them to Cognito.
+           3. On success we receive an IdToken (JWT).
+           4. We store the IdToken in a plain JS variable (NOT
+              localStorage/sessionStorage) so it clears on page refresh.
+           5. The token is sent as "Authorization: Bearer <IdToken>"
+              on protected API calls (POST /posts).
+    -->
+    <div id="auth-section">
+      <div id="login-form-container" class="auth-box">
+        <h3>Log in to create posts</h3>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" required placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" id="login-password" required placeholder="Your password">
+          </div>
+          <button type="submit">Log in</button>
+          <div id="login-error" class="error"></div>
+        </form>
+      </div>
+
+      <!-- Hidden until login succeeds -->
+      <div id="logged-in-view" style="display:none;">
+        <div class="logged-in-info">
+          <span>Logged in as <strong id="user-email"></strong></span>
+          <button class="btn-secondary" id="logout-btn">Log out</button>
+        </div>
+
+        <div class="new-post-form">
+          <h3>New Post</h3>
+          <form id="create-post-form">
+            <div class="form-group">
+              <label for="post-title">Title</label>
+              <input type="text" id="post-title" required placeholder="Post title">
+            </div>
+            <div class="form-group">
+              <label for="post-content">Content</label>
+              <textarea id="post-content" required placeholder="Write your post..."></textarea>
+            </div>
+            <button type="submit">Publish</button>
+            <div id="create-error" class="error" style="margin-top:0.5rem;"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST LIST -->
+    <div id="post-list"></div>
+
+  </div>
+
+  <!-- amazon-cognito-identity-js from jsDelivr CDN (no npm/build step) -->
+  <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.3.7/dist/amazon-cognito-identity.min.js"></script>
+
+  <!-- config.js must load before blog.js so the constants are available -->
+  <script src="config.js"></script>
+  <script src="blog.js"></script>
+
+</body>
+</html>

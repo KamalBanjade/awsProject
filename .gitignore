@@ -1,0 +1,9 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# SAM build artifacts
+.aws-sam/
+
+# Environment variables (contains credentials)
+.env

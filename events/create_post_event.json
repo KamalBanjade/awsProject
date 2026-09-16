@@ -1,0 +1,10 @@
+{
+  "body": "{\"title\": \"Hello World\", \"content\": \"My first post\"}",
+  "requestContext": {
+    "authorizer": {
+      "claims": {
+        "email": "test@example.com"
+      }
+    }
+  }
+}
