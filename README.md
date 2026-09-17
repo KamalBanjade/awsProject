@@ -128,4 +128,7 @@ sam delete --stack-name portfolio-blog-17
 Redeploy in seconds with `sam build && sam deploy` right before presenting.
 
 Live Site: http://portfolio-17.s3-website-us-east-1.amazonaws.com/index.html
+API_BASE_URL = "https://iwz4yozrmg.execute-api.us-east-1.amazonaws.com/prod";
+COGNITO_USER_POOL_ID = "us-east-1_QXhYIQd9c";
+COGNITO_CLIENT_ID = "70esjptmm2h3anlo9o74ds8v9a";
 
