@@ -127,3 +127,5 @@ sam delete --stack-name portfolio-blog-17
 ```
 Redeploy in seconds with `sam build && sam deploy` right before presenting.
 
+Live Site: http://portfolio-17.s3-website-us-east-1.amazonaws.com/index.html
+
