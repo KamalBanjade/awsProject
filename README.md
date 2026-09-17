@@ -110,7 +110,7 @@ aws cognito-idp admin-set-user-password `
   --permanent
 ```
 
-## Verified end-to-end (Phase 9)
+## Verified end-to-end
 
 - [x] `GET /posts` → `200`, empty array on a fresh table
 - [x] `POST /posts` without a token → `401 Unauthorized`
@@ -120,7 +120,7 @@ aws cognito-idp admin-set-user-password `
 - [x] Click into a post → `post.html` renders full content via `GET /posts/{id}`
 - [x] CloudWatch Logs show `CreatePost-17` invocations
 
-## Clean up (after recording demo material, before presentation day)
+## Clean up (after recording demo material)
 
 ```powershell
 sam delete --stack-name portfolio-blog-17
