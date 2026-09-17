@@ -23,7 +23,6 @@ COGNITO_CLIENT_ID = "70esjptmm2h3anlo9o74ds8v9a";
 ---
 
 ## Contents
-- [Presentation cheat sheet](#presentation-cheat-sheet)
 - [Project structure](#project-structure)
 - [Architecture](#architecture)
 - [Resources](#resources-all-named-with-student-id-17)
@@ -34,21 +33,6 @@ COGNITO_CLIENT_ID = "70esjptmm2h3anlo9o74ds8v9a";
 - [Create a test user](#create-a-test-user-for-demo-login)
 - [Verified end-to-end](#verified-end-to-end)
 - [Clean up](#clean-up-after-recording-demo-material)
-
----
-
-## Presentation Cheat Sheet
-
-Quick nav if presenting straight from this file — jump to the section as you talk.
-
-| Time | What to show | Jump to |
-|---|---|---|
-| 1 min | Intro — name, project title, Student ID 17 | *(title slide)* |
-| 2 min | Live site — portfolio + blog listing | [Quick Links](#quick-links-for-live-demo) → open Live Site |
-| 2 min | Login → Create Post → View Post | [Create a test user](#create-a-test-user-for-demo-login) if you need fresh credentials |
-| 2 min | AWS Console — S3, DynamoDB, Cognito, API Gateway, CloudWatch | [Resources table](#resources-all-named-with-student-id-17) has every resource name to search for |
-| 1-2 min | Architecture walkthrough | [Architecture](#architecture) diagram |
-| 1 min | Challenges & what I learned | *(see presentation deck, slide 6)* |
 
 ---
 
