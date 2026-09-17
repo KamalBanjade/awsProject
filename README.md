@@ -1,6 +1,6 @@
 # Serverless Portfolio & Blog Platform — Student ID 17
 
-## Status: Phases 1–9 complete — full stack deployed and tested end to end
+## Status: full stack deployed and tested end to end
 
 ## Project structure
 ```
