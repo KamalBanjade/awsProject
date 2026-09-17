@@ -1,6 +1,56 @@
 # Serverless Portfolio & Blog Platform — Student ID 17
 
-## Status: full stack deployed and tested end to end
+**Status:** ✅ Full stack deployed and tested end to end
+
+---
+
+## Quick Links (for live demo)
+
+| | |
+|---|---|
+| **Live Site** | http://portfolio-17.s3-website-us-east-1.amazonaws.com/index.html |
+| **API Base URL** | `https://iwz4yozrmg.execute-api.us-east-1.amazonaws.com/prod` |
+| **Cognito User Pool ID** | `us-east-1_QXhYIQd9c` |
+| **Cognito Client ID** | `70esjptmm2h3anlo9o74ds8v9a` |
+
+```js
+// frontend/config.js
+API_BASE_URL = "https://iwz4yozrmg.execute-api.us-east-1.amazonaws.com/prod";
+COGNITO_USER_POOL_ID = "us-east-1_QXhYIQd9c";
+COGNITO_CLIENT_ID = "70esjptmm2h3anlo9o74ds8v9a";
+```
+
+---
+
+## Contents
+- [Presentation cheat sheet](#presentation-cheat-sheet)
+- [Project structure](#project-structure)
+- [Architecture](#architecture)
+- [Resources](#resources-all-named-with-student-id-17)
+- [DynamoDB item shape](#dynamodb-item-shape)
+- [Auth flow](#auth-flow)
+- [Deploy the whole stack](#how-to-deploy-the-whole-stack)
+- [Deploy the frontend](#deploy-the-frontend)
+- [Create a test user](#create-a-test-user-for-demo-login)
+- [Verified end-to-end](#verified-end-to-end)
+- [Clean up](#clean-up-after-recording-demo-material)
+
+---
+
+## Presentation Cheat Sheet
+
+Quick nav if presenting straight from this file — jump to the section as you talk.
+
+| Time | What to show | Jump to |
+|---|---|---|
+| 1 min | Intro — name, project title, Student ID 17 | *(title slide)* |
+| 2 min | Live site — portfolio + blog listing | [Quick Links](#quick-links-for-live-demo) → open Live Site |
+| 2 min | Login → Create Post → View Post | [Create a test user](#create-a-test-user-for-demo-login) if you need fresh credentials |
+| 2 min | AWS Console — S3, DynamoDB, Cognito, API Gateway, CloudWatch | [Resources table](#resources-all-named-with-student-id-17) has every resource name to search for |
+| 1-2 min | Architecture walkthrough | [Architecture](#architecture) diagram |
+| 1 min | Challenges & what I learned | *(see presentation deck, slide 6)* |
+
+---
 
 ## Project structure
 ```
@@ -125,10 +175,4 @@ aws cognito-idp admin-set-user-password `
 ```powershell
 sam delete --stack-name portfolio-blog-17
 ```
-Redeploy in seconds with `sam build && sam deploy` right before presenting.
-
-Live Site: http://portfolio-17.s3-website-us-east-1.amazonaws.com/index.html
-API_BASE_URL = "https://iwz4yozrmg.execute-api.us-east-1.amazonaws.com/prod";
-COGNITO_USER_POOL_ID = "us-east-1_QXhYIQd9c";
-COGNITO_CLIENT_ID = "70esjptmm2h3anlo9o74ds8v9a";
-
+Redeploy in seconds with `sam build && sam deploy`.
